@@ -10,6 +10,10 @@ if [[ $# -eq 0 ]]; then
 fi
 
 ENV=$1
+TEST=1
+
+rm -rf ./results
+mkdir results || true
 
 # It would be possible to have different types of tests in this repository.
 # If you created another directy named `go-tests`, you could also run those tests from here.
@@ -18,8 +22,9 @@ function run_js_tests () {
     cd js-tests
 
     export NODE_ENV=$ENV
-    npm run test -- --reporter tap $@
+    npm run test -- $@ 2>&1 | tee ./../results/test-results-$TEST.tap
   )
+  TEST=$(($TEST + 1))
 }
 
 # Run a different set of tests depending on ENV.
