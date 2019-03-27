@@ -37,7 +37,6 @@ if [[ $ENV == "DEV" ]]; then
 elif [[ $ENV == "QA" ]]; then
 
   # In this environment, we're running smoke and functional tests.
-  # If the smoke tests fail, the functional tests won't run, which saves time.
 
   export SUITE=smoke
   run_js_tests "--grep" "smoke"
@@ -48,6 +47,20 @@ elif [[ $ENV == "STAGING" ]]; then
 
   export SUITE=ui
   run_js_tests "--grep" "ui"
+
+elif [[ $ENV == "FAIL" ]]; then
+
+  # If the smoke tests fail, the functional tests won't run, which saves time.
+
+  export SUITE=wrong
+  run_js_tests "--grep" "smoke"
+  export SUITE=functional
+  run_js_tests "--grep" "functional"
+
+else
+
+  echo "Invalid or unconfigured ENV provided."
+  exit 1
 
 fi
 
