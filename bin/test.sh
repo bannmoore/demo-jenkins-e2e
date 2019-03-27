@@ -18,7 +18,7 @@ function run_js_tests () {
     cd js-tests
 
     export NODE_ENV=$ENV
-    npm run test -- $@
+    npm run test -- --reporter tap $@
   )
 }
 
