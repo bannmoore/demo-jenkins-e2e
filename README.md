@@ -9,6 +9,8 @@ This repo provides an example of a configurable end-to-end test automation setup
 
 ## Getting Started
 
+Follow [these instructions](https://github.com/testdouble/diplomat/wiki/Getting-Started-Guide) to install the testing tool Diplomat.
+
 Start the Jenkins container:
 
 ```sh

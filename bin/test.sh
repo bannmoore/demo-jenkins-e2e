@@ -15,8 +15,6 @@ TEST=1
 rm -rf ./results
 mkdir results || true
 
-# It would be possible to have different types of tests in this repository.
-# If you created another directy named `go-tests`, you could also run those tests from here.
 function run_js_tests () {
   (
     cd js-tests
@@ -27,12 +25,26 @@ function run_js_tests () {
   TEST=$(($TEST + 1))
 }
 
+function run_diplomat_tests () {
+  (
+    cd diplomat-tests
+
+    printf "\n"
+
+    export ADDRESS=https://httpbin.org
+    export TEST_FILES=$@
+    diplomat --tap --address $ADDRESS $TEST_FILES 2>&1 | tee ./../results/test-results-$TEST.tap
+  )
+  TEST=$(($TEST + 1))
+}
+
 # Run a different set of tests depending on ENV.
 # The export VAR=value pattern lets us configure the environment as well.
 if [[ $ENV == "DEV" ]]; then
 
   export SUITE=smoke
   run_js_tests "--grep" "smoke"
+  run_diplomat_tests "smoke.txt"
 
 elif [[ $ENV == "QA" ]]; then
 
@@ -40,13 +52,17 @@ elif [[ $ENV == "QA" ]]; then
 
   export SUITE=smoke
   run_js_tests "--grep" "smoke"
+  run_diplomat_tests "smoke.txt"
+
   export SUITE=functional
   run_js_tests "--grep" "functional"
+  run_diplomat_tests "functional.txt"
 
 elif [[ $ENV == "STAGING" ]]; then
 
   export SUITE=ui
   run_js_tests "--grep" "ui"
+  run_diplomat_tests "ui.txt"
 
 elif [[ $ENV == "FAIL" ]]; then
 
@@ -54,8 +70,11 @@ elif [[ $ENV == "FAIL" ]]; then
 
   export SUITE=wrong
   run_js_tests "--grep" "smoke"
+  run_diplomat_tests "smoke.txt"
+
   export SUITE=functional
   run_js_tests "--grep" "functional"
+  run_diplomat_tests "funcional.txt"
 
 else
 

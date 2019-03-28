@@ -1,0 +1,23 @@
+> POST /post HTTP/1.1
+> Accept: text/plain
+> Content-Type: application/json
+> Header: {{ env("SUITE") }}
+The request body
+< HTTP/1.1 200 OK
+{
+  "args": {},
+  "data": "The request body\n",
+  "files": {},
+  "form": {},
+  "headers": {
+    "Accept": "text/plain",
+    "Content-Length": "17",
+    "Content-Type": "application/json",
+    "Header": "ui",
+    "Host": "httpbin.org",
+    "User-Agent": "Diplomat/0.0.1"
+  },
+  "json": null,
+  "origin": "65.50.46.49, 65.50.46.49",
+  "url": "https://httpbin.org/post"
+}
