@@ -4,13 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --reporter tap"
+    "test": "spec-runner --reporter qa-tools/reporter"
   },
   "keywords": [],
   "author": "Brittany <moore.brittanyann@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "chai": "^4.2.0",
-    "mocha": "^6.0.2"
+    "mocha": "^6.0.2",
+    "qa-tools": "github:foxbroadcasting/qa-tools#71933fc"
   }
 }

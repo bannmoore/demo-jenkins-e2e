@@ -12,8 +12,7 @@ fi
 ENV=$1
 TEST=1
 
-rm -rf ./results
-mkdir results || true
+mkdir results 2>/dev/null || true
 
 # It would be possible to have different types of tests in this repository.
 # If you created another directy named `go-tests`, you could also run those tests from here.
@@ -22,7 +21,7 @@ function run_js_tests () {
     cd js-tests
 
     export NODE_ENV=$ENV
-    npm run test -- $@ 2>&1 | tee ./../results/test-results-$TEST.tap
+    npm run test -- $@ --reporter-options "filePath=./../results/$ENV-$TEST.xml,suiteName=$ENV-$TEST"
   )
   TEST=$(($TEST + 1))
 }
@@ -32,16 +31,17 @@ function run_js_tests () {
 if [[ $ENV == "DEV" ]]; then
 
   export SUITE=smoke
-  run_js_tests "--grep" "smoke"
+  run_js_tests "test/smoke.js"
 
 elif [[ $ENV == "QA" ]]; then
 
   # In this environment, we're running smoke and functional tests.
 
   export SUITE=smoke
-  run_js_tests "--grep" "smoke"
+  run_js_tests "test/smoke.js"
   export SUITE=functional
-  run_js_tests "--grep" "functional"
+  run_js_tests "test/functional.js"
+  run_js_tests "test/functional.js"
 
 elif [[ $ENV == "STAGING" ]]; then
 
@@ -53,9 +53,9 @@ elif [[ $ENV == "FAIL" ]]; then
   # If the smoke tests fail, the functional tests won't run, which saves time.
 
   export SUITE=wrong
-  run_js_tests "--grep" "smoke"
+  run_js_tests "test/smoke.js"
   export SUITE=functional
-  run_js_tests "--grep" "functional"
+  run_js_tests "test/functional.js"
 
 else
 

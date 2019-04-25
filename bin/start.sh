@@ -15,6 +15,8 @@ echo "Initial admin password:"
 
 printf "\n"
 
+sleep 5
+
 docker-compose exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword
 
 printf "\n"
