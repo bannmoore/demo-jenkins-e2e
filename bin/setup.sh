@@ -3,6 +3,9 @@ set -euo pipefail
 IFS=$'\n\t'
 
 (
-  cd js-tests
+  cd cypress-tests
+
+  rm -rf package-lock.json
+
   npm install
 )

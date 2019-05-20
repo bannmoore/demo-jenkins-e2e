@@ -17,12 +17,12 @@ mkdir results || true
 
 # It would be possible to have different types of tests in this repository.
 # If you created another directy named `go-tests`, you could also run those tests from here.
-function run_js_tests () {
+function run_cypress_tests () {
   (
-    cd js-tests
+    cd cypress-tests
 
     export NODE_ENV=$ENV
-    npm run test -- $@ 2>&1 | tee ./../results/test-results-$TEST.tap
+    npm run test:tap -- $@ 2>&1 | tee ./../results/test-results-$TEST.tap
   )
   TEST=$(($TEST + 1))
 }
@@ -31,31 +31,15 @@ function run_js_tests () {
 # The export VAR=value pattern lets us configure the environment as well.
 if [[ $ENV == "DEV" ]]; then
 
-  export SUITE=smoke
-  run_js_tests "--grep" "smoke"
+  run_cypress_tests
 
 elif [[ $ENV == "QA" ]]; then
 
-  # In this environment, we're running smoke and functional tests.
+  run_cypress_tests
 
-  export SUITE=smoke
-  run_js_tests "--grep" "smoke"
-  export SUITE=functional
-  run_js_tests "--grep" "functional"
+elif [[ $ENV == "PROD" ]]; then
 
-elif [[ $ENV == "STAGING" ]]; then
-
-  export SUITE=ui
-  run_js_tests "--grep" "ui"
-
-elif [[ $ENV == "FAIL" ]]; then
-
-  # If the smoke tests fail, the functional tests won't run, which saves time.
-
-  export SUITE=wrong
-  run_js_tests "--grep" "smoke"
-  export SUITE=functional
-  run_js_tests "--grep" "functional"
+  run_cypress_tests
 
 else
 
