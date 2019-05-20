@@ -12,8 +12,8 @@ fi
 ENV=$1
 TEST=1
 
-rm -rf ./results
-mkdir results || true
+# Recreate the results directory.
+mkdir results 2>/dev/null || true
 
 # It would be possible to have different types of tests in this repository.
 # If you created another directy named `go-tests`, you could also run those tests from here.

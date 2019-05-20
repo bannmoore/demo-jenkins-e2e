@@ -1,4 +1,6 @@
 docker
 node_modules
+screenshots
 results
 *.tap
+!bin/docker

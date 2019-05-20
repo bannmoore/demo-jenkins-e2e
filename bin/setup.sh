@@ -8,4 +8,5 @@ IFS=$'\n\t'
   rm -rf package-lock.json
 
   npm install
+  $(npm bin)/cypress install
 )

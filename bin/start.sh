@@ -11,10 +11,11 @@ docker-compose up -d
 printf "\n"
 
 echo "Jenkins is available at localhost:8080"
-echo "Initial admin password:"
+echo "Please wait for container to initialize..."
 
-printf "\n"
+sleep 10
 
+printf "Initial admin password:\n\n"
 docker-compose exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword
 
 printf "\n"
